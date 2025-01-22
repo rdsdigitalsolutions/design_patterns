@@ -9,7 +9,7 @@ class Singleton:
         if cls._instance is None:
             # If no instance exists, create one and store it in _instance.
             cls._instance = super().__new__(cls)  # Pass only the class itself.
-            print("Creating a new instance of Singleton.\n")
+            print("\nCreating a new instance of Singleton.")
         
         return cls._instance
 
@@ -20,17 +20,20 @@ class Singleton:
         if not hasattr(self, 'value'):
             # Initialise the 'value' attribute only once.
             self.value = value
+    
+    def __str__(self):
+        return self.value
 
 def check_is_same(instances):
     """
     Simple function to check if it's singleton.
     """
 
-    print("\n\nHere you can see they are all the same class.")
+    print("\nShows they are all the same class:\n")
 
     for i in range(len(instances)):
         if instances[i] is singleton1:
-            print(f"Instance #{i} is singleton!")
+            print(f"Instance #{i} is '{instances[2].value}'!")
         else:
             print(f"Instance #{i} is not singleton!!!")
 
@@ -42,21 +45,24 @@ if __name__ == "__main__":
     # Creates the first instace.
     singleton1 = Singleton("Original Class")
     instances = []
-
     
-    print("\nHere I try to create more instances (singleton)")
     for i in range(5):
         new_class = Singleton("Second Instance") # No matter the name, it will not be used if the "Singleton" class already exist.
         instances.append(new_class)
-        print(f"New Class Name: {instances[i].value}, Singleton Class name: {singleton1.value}. Loop #{i}")
 
     # Here you can see they are all the same class.
     check_is_same(instances)
 
     # chage the value of one of the instaces to show they all change.
     instances[2].value = "Something else"
+    instances[1].value = "Something else 2"
+    instances[3].value = "Something else 7"
 
-    print("\n\nThis demonstrates that both references point to the same instance.")
-    print(f"Is {instances[2].value} == {instances[1].value}? {instances[2].value==instances[1].value}")
-    print(f"Is {instances[1].value} == {instances[3].value}? {instances[1].value==instances[3].value}")
-    print(f"Is {singleton1.value} == {instances[3].value}? {singleton1.value==instances[3].value}")
+    print("\n\nReferences point to the same instance:\n")
+    print(f"Is instance 2 same as instance 1? {instances[2].value==instances[1].value}")
+    print(f"Is instance 1 same as instance 3? {instances[1].value==instances[3].value}")
+    print(f"Is Original same as instance 3? {singleton1.value==instances[3].value}")
+
+    print("\n\nAll instances are:\n")
+    for i in range(len(instances)):
+        print(f"Instance #{i} is '{instances[i].value}'!")
